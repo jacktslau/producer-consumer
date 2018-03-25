@@ -1,0 +1,9 @@
+# Changelog
+
+## [TODO]
+
+
+## [0.1.0] - Simple Producer and Consumer
+- added Account, Transaction, Consumer, Producer, MessageQueue class
+- added Account Spec
+- added main script to test producer and consumer flow

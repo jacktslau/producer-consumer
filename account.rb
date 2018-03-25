@@ -20,9 +20,7 @@ class Account
 
     case transaction.type
       when TransactionType::PAYMENT
-        if(@balance >= transaction.amount)
-          return self.copy(@balance - transaction.amount, @createTs, Time.now)
-        end
+        return self.copy(@balance - transaction.amount, @createTs, Time.now)
       when TransactionType::TOPUP
         return self.copy(@balance + transaction.amount, @createTs, Time.now)
     end

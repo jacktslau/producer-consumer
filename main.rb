@@ -11,7 +11,7 @@ puts "Starting Producer and Consumer..."
 c.start
 p.start
 
-sleep(100)
+sleep(30)
 
 puts "Stopping Producer and Consumer..."
 p.kill
