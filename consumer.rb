@@ -2,9 +2,10 @@ require 'thread'
 
 class Consumer
 
-  def initialize size = 1, queue
+  def initialize(size = 1, queue, &callback)
     @size = size
     @queue = queue
+    @callback = callback
     @threads = []
   end
 
@@ -20,7 +21,7 @@ class Consumer
   private def run
     loop do
       msg = @queue.pop
-      puts "Received #{msg}"
+      @callback.call(msg)
     end
   end
 

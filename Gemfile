@@ -1,5 +1,10 @@
 source 'http://rubygems.org'
-gem 'rack'
 gem 'sinatra'
+gem 'thin'
+gem 'sinatra-websocket'
 gem 'uuidtools'
-gem 'rspec'
+gem 'concurrent-ruby'
+
+group :test do
+  gem 'rspec'
+end

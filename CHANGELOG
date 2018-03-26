@@ -7,3 +7,8 @@
 - added Account, Transaction, Consumer, Producer, MessageQueue class
 - added Account Spec
 - added main script to test producer and consumer flow
+
+## [0.2.0] - Add Web Interface to start/stop Producers and Consumers
+- added sinatra webapp
+
+## [0.3.0] - Implement Producers and Consumers logic

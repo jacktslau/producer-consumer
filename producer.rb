@@ -1,10 +1,14 @@
+require_relative 'transaction'
+require_relative 'account'
+
 require 'thread'
 
 class Producer
 
-  def initialize size = 5, queue
+  def initialize(size = 5, queue, accountService)
     @size = size
     @queue = queue
+    @accountService = accountService
     @threads = []
   end
 
@@ -20,13 +24,16 @@ class Producer
   private def run
     loop do
       sleep(rand(10))
-      tid = Thread.current.object_id
-      @queue << "#{tid}> a msg #{Time.now.to_s}"
+      pid = Thread.current.object_id
+      transaction = @accountService.randomTransaction(pid)
+      @queue << transaction
+      @accountService.applyTransaction(transaction)
     end
   end
 
   def kill
     @threads.each &:kill
+
   end
 
 end

@@ -1,0 +1,22 @@
+<html>
+<body>
+    <h1>Consumer Logs</h1>
+    <div id="msgs"></div>
+</body>
+
+<script type="text/javascript">
+    window.onload = function(){
+        (function(){
+            var show = function(el){
+                return function(msg){ el.innerHTML = msg + '<br />' + el.innerHTML; }
+            }(document.getElementById('msgs'));
+
+            var ws       = new WebSocket('ws://' + window.location.host + window.location.pathname);
+            ws.onopen    = function()  { console.log('websocket opened'); };
+            ws.onclose   = function()  { console.log('websocket closed'); }
+            ws.onmessage = function(m) { show(m.data); };
+
+        })();
+    }
+</script>
+</html>
