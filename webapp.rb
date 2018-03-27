@@ -55,12 +55,19 @@ class Webapp < Sinatra::Base
 
   end
 
+  # show index page
+  get '/' do
+    File.read(File.join('views', 'index.html'))
+  end
+
+  # Toggle start/stop producers and consumers
   get '/toggle' do
-    result = 'OK'
+    result = nil
 
     settings.lock.synchronize do
       if(!settings.running)
         start
+        result = "#{settings.producers.size} Producers and #{settings.consumers.size} Consumers started"
       else
         result = stop
       end
@@ -69,21 +76,16 @@ class Webapp < Sinatra::Base
     result
   end
 
-  # show log page if not websocket
   get '/consumer/log' do
+    # show log page if not websocket
     if !request.websocket?
       File.read(File.join('views', 'consumer.html'))
     else
       request.websocket do |ws|
         ws.onopen do
-          ws.send("Hello World!")
           settings.sockets << ws
         end
-        ws.onmessage do |msg|
-          # EM.next_tick { settings.sockets.each{|s| s.send(msg) } }
-        end
         ws.onclose do
-          warn("websocket closed")
           settings.sockets.delete(ws)
         end
       end

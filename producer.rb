@@ -5,6 +5,8 @@ require 'thread'
 
 class Producer
 
+  attr_reader :size
+
   def initialize(size = 5, queue, accountService)
     @size = size
     @queue = queue

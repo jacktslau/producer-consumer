@@ -38,11 +38,6 @@ class Account
     return itself
   end
 
-  # Return a new account with new variables
-  def copy (balance = @balance, createTs = @createTs, updateTs = @updateTs)
-    Account.new balance, createTs, updateTs, @id
-  end
-
   def to_hash
     txnLogHash = @transactionLogs.map { |t| t.to_hash }
     {

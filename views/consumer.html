@@ -8,13 +8,16 @@
     window.onload = function(){
         (function(){
             var show = function(el){
-                return function(msg){ el.innerHTML = msg + '<br />' + el.innerHTML; }
+                return function(data){
+                    msg = `${data.createTs}> Producer [${data.producerId}] send $${data.amount} ${data.type} transaction to Account [${data.accountId}]`;
+                    el.innerHTML = msg + '<br />' + el.innerHTML;
+                }
             }(document.getElementById('msgs'));
 
             var ws       = new WebSocket('ws://' + window.location.host + window.location.pathname);
             ws.onopen    = function()  { console.log('websocket opened'); };
-            ws.onclose   = function()  { console.log('websocket closed'); }
-            ws.onmessage = function(m) { show(m.data); };
+            ws.onclose   = function()  { console.log('websocket closed'); };
+            ws.onmessage = function(m) { show(JSON.parse(m.data)); };
 
         })();
     }

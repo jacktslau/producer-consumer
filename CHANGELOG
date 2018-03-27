@@ -7,8 +7,15 @@
 - added Account, Transaction, Consumer, Producer, MessageQueue class
 - added Account Spec
 - added main script to test producer and consumer flow
+- spent: 4 hours
 
 ## [0.2.0] - Add Web Interface to start/stop Producers and Consumers
 - added sinatra webapp
+- spent: 2 hours
 
 ## [0.3.0] - Implement Producers and Consumers logic
+- producer create random transaction and push into the queue, then update account balance
+- consumer received the transaction from queue and stream it to any client listening to the websocket
+- `/toggle` API to toggle start/stop producers and consumers, return all accounts and transactions in json format when stop
+- `/consumer/log` shows consumer log stream web page
+- spent: 2 hours

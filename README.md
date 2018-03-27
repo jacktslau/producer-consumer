@@ -1,25 +1,24 @@
 ## Introduction
-This is a producer and consumer implemented in ruby web application.
-
-## Implementation
+This is a producer and consumer sample implemented in ruby. 
+It simulates bank transaction updating account balance in producers and consumers.
 
 ### Producer
-Each producer randomly produce a transaction object and pushed into a queue
+Each producer randomly produces a PAYMENT / TOPUP transaction and pushed into a queue.
+Then it will update account balance and saved into the account logs.
 
 ### Consumer
-Each consumer reads the object from the queue and writes into log 
-
+Each consumer reads the transaction from the queue and log it. 
 
 ### WebServer
 
-### API
-`GET /toggle`
+`/toggle`
 
-Start or stop the producers and consumers.
+Start or stop the producers and consumers. 
+It returns all accounts and transaction in json format when it stops.
 
-`GET /consume`
+`/consumer/log`
 
-Read the consumer's log 
+Open a consumer UI to display any transaction log once it received.
 
 ## Run
-`> rackup config.ru`
+`> bundle exec thin -R config.ru -p 9000 -e development start`

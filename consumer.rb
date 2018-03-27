@@ -2,6 +2,8 @@ require 'thread'
 
 class Consumer
 
+  attr_reader :size
+
   def initialize(size = 1, queue, &callback)
     @size = size
     @queue = queue
