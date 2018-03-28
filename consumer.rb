@@ -1,10 +1,12 @@
 require 'thread'
+require 'logger'
 
 class Consumer
 
   attr_reader :size
 
   def initialize(size = 1, queue, &callback)
+    @logger = Logger.new('log/consumer.log')
     @size = size
     @queue = queue
     @callback = callback
@@ -23,6 +25,7 @@ class Consumer
   private def run
     loop do
       msg = @queue.pop
+      @logger.info "Received #{msg}"
       @callback.call(msg)
     end
   end

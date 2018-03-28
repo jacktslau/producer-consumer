@@ -9,7 +9,7 @@
         (function(){
             var show = function(el){
                 return function(data){
-                    msg = `${data.createTs}> Producer [${data.producerId}] send $${data.amount} ${data.type} transaction to Account [${data.accountId}]`;
+                    msg = `${data.createTs}> Producer #${data.producerId} generates $${data.amount} ${data.type} transaction to Account #${data.accountId}`;
                     el.innerHTML = msg + '<br />' + el.innerHTML;
                 }
             }(document.getElementById('msgs'));

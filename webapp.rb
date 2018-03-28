@@ -9,12 +9,9 @@ require 'sinatra-websocket'
 class Webapp < Sinatra::Base
 
   configure do
+    enable :logging
     set :server, "thin"
     set :sockets, []
-
-    def consumerCallback(msg)
-      settings.sockets.each{|s| s.send(msg) }
-    end
 
     disable :running
     set :lock, Mutex.new
@@ -22,7 +19,6 @@ class Webapp < Sinatra::Base
     set :queue, MessageQueue.new
     set :producers, Producer.new(3, settings.queue, settings.accountService)
     set :consumers, Consumer.new(1, settings.queue) { |msg|
-      puts "Received #{msg.to_json}"
       settings.sockets.each{ |s| s.send(msg.to_json) }
     }
   end
@@ -30,19 +26,19 @@ class Webapp < Sinatra::Base
   helpers do
     def start
       settings.running = true
-      puts "Starting Consumer"
+      logger.info "Starting Consumer"
       settings.consumers.start
 
-      puts "Starting Producer"
+      logger.info "Starting Producer"
       settings.producers.start
     end
 
     def stop
       settings.running = false
-      puts "Stopping Producer"
+      logger.info "Stopping Producer"
       settings.producers.kill
 
-      puts "Stopping Consumer"
+      logger.info "Stopping Consumer"
       settings.consumers.kill
 
       settings.queue.clear

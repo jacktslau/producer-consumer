@@ -36,7 +36,9 @@ class AccountService
     accId = transaction.accountId
     if @accounts.key?(accId)
       acc = @accounts[accId]
-      acc.apply(transaction)
+      return acc.apply(transaction)
+    else
+      return nil
     end
   end
 

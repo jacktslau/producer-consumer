@@ -47,8 +47,8 @@ class Transaction
     to_hash.to_json
   end
 
-  def display
-    puts "Transaction (id=#{@id}, producerId=#{@producerId}, accountId=#{@accountId}, type=#{@type}, amount=#{@amount}, createTs=#{@createTs})"
+  def to_s
+    "Transaction (id=#{@id}, producerId=#{@producerId}, accountId=#{@accountId}, type=#{@type}, amount=#{@amount}, createTs=#{@createTs})"
   end
 
 end

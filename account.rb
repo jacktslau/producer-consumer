@@ -54,11 +54,11 @@ class Account
   end
 
 
-  def display
+  def to_s
     txnLogs = @transactionLogs.map { |txn|
-      txn.display
+      txn.to_s
     }
-    puts "Account (id=#{@id}, balance=#{@balance}, createTs=#{@createTs}, updateTs=#{@updateTs}, transactionLogs=#{txnLogs})"
+    "Account (id=#{@id}, balance=#{@balance}, createTs=#{@createTs}, updateTs=#{@updateTs}, transactionLogs=#{txnLogs})"
   end
 
 end
