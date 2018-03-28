@@ -50,7 +50,7 @@ class Webapp < Sinatra::Base
       # get all accounts and print log
       settings.accountService.getAccounts.map { |acc|
         acc.to_hash
-      }.to_json
+      }
     end
 
   end
@@ -62,18 +62,20 @@ class Webapp < Sinatra::Base
 
   # Toggle start/stop producers and consumers
   get '/toggle' do
-    result = nil
+    result = {}
 
     settings.lock.synchronize do
       if(!settings.running)
         start
-        result = "#{settings.producers.size} Producers and #{settings.consumers.size} Consumers started"
+        result[:status] = "started"
+        result[:message] = "#{settings.producers.size} Producers and #{settings.consumers.size} Consumers started"
       else
-        result = stop
+        result[:status] = "stopped"
+        result[:accounts] = stop
       end
     end
 
-    result
+    result.to_json
   end
 
   get '/consumer/log' do
