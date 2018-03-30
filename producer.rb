@@ -31,7 +31,7 @@ class Producer
     sleep(rand(10))
     pid = Thread.current.object_id
     transaction = @accountService.randomTransaction(pid)
-    @queue << transaction
+    @queue.push(transaction)
     updatedAcc = @accountService.applyTransaction(transaction)
     if(!updatedAcc.nil?)
       # After each transaction log the following information: producer_id, transaction_id, amount, side, balance (after an update).

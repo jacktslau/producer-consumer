@@ -16,7 +16,7 @@ class Webapp < Sinatra::Base
     disable :running
     set :lock, Mutex.new
     set :accountService, AccountService.new(5)
-    set :queue, MessageQueue.new
+    set :queue, SimpleMessageQueue.new
     set :producers, Producer.new(3, settings.queue, settings.accountService)
     set :consumers, Consumer.new(1, settings.queue) { |msg|
       settings.sockets.each{ |s| s.send(msg.to_json) }
