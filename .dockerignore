@@ -1,0 +1,6 @@
+.*
+log
+spec
+*.md
+CHANGELOG
+Dockerfile

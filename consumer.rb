@@ -6,7 +6,7 @@ class Consumer
   attr_reader :size
 
   def initialize(size = 1, queue, &callback)
-    @logger = Logger.new('log/consumer.log')
+    @logger = Logger.new(STDOUT)
     @size = size
     @queue = queue
     @callback = callback
@@ -17,17 +17,17 @@ class Consumer
   def start
     @size.times do
       @threads << Thread.new do
-        run
+        loop do
+          run
+        end
       end
     end
   end
 
-  private def run
-    loop do
-      msg = @queue.pop
-      @logger.info "Received #{msg}"
-      @callback.call(msg)
-    end
+  def run
+    msg = @queue.pop
+    @logger.info "Received #{msg}"
+    @callback.call(msg)
   end
 
   def kill

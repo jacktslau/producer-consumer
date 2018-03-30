@@ -21,7 +21,7 @@ end
 
 class Transaction
 
-  attr_reader :id, :accountId, :type, :amount, :createTs
+  attr_reader :id, :producerId, :accountId, :type, :amount, :createTs
 
   def initialize (producerId, accountId, type, amount, createTs = Time.now, id = UUIDTools::UUID.timestamp_create)
     @id = id

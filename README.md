@@ -20,5 +20,27 @@ It returns all accounts and transaction in json format when it stops.
 
 Open a consumer UI to display any transaction log once it received.
 
-## Run
-`> bundle exec thin -R config.ru -p 9000 -e development start`
+## Implementation
+
+Here is the different implementation in each version:
+* [[0.3.0]()] using Ruby build-in Queue, data stored in ram, Producers and Consumers all implemented in a single Sinatra web service.
+* [[0.4.0]()] using Ruby build-in Queue, data stored in Redis, Producers and Consumers all implemented in a single Sinatra web service.
+* [[0.5.0]()] using Apache Kafka as Queue, data stored in Redis, Producers and Consumers are separated into two servers. 
+
+Please refer to the [CHANGELOG](./CHANGELOG) for details
+
+### Prerequisite
+Please install the following tools in order to build/develop this project
+
+* [Ruby](https://www.ruby-lang.org)
+* [Docker](https://docs.docker.com/install/)
+
+
+### Start Local Server
+`$ sh start.sh`
+
+### Run in Docker image
+
+`$ docker build -t producer-consumer .`
+
+`$ docker run -d -p 9292:9292 producer-consumer`

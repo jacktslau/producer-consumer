@@ -1,16 +1,13 @@
 # Changelog
 
-## [TODO]
-
-
 ## [0.1.0] - Simple Producer and Consumer
 - added Account, Transaction, Consumer, Producer, MessageQueue class
-- added Account Spec
+- added Spec
 - added main script to test producer and consumer flow
 - spent: 4 hours
 
 ## [0.2.0] - Add Web Interface to start/stop Producers and Consumers
-- added sinatra webapp
+- used sinatra to serve web interface
 - spent: 2 hours
 
 ## [0.3.0] - Implement Producers and Consumers logic
@@ -18,4 +15,10 @@
 - consumer received the transaction from queue and stream it to any client listening to the websocket
 - `/toggle` API to toggle start/stop producers and consumers, return all accounts and transactions in json format when stop
 - `/consumer/log` shows consumer log stream web page
-- spent: 2 hours
+- Add Dockerfile to build docker image
+- spent: 4 hours
+
+## [0.4.0]
+
+
+## [0.5.0]
