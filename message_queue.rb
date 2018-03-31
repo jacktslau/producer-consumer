@@ -1,3 +1,5 @@
+require 'kafka'
+
 module MessageQueue
   def push(msg)
     raise 'Not implemented'
@@ -50,3 +52,31 @@ class SimpleMessageQueue
 
 end
 
+class KafkaMessageQueue
+  include MessageQueue
+
+  def initialize
+    @kafka = Kafka.new(["#{ENV['KAFKA_HOST']}:#{ENV['KAFKA_PORT']}"])
+    @producer = @kafka.async_producer(
+      delivery_threshold: 10,
+      delivery_interval: 5
+    )
+    @consumer = @kafka.consumer(group_id: 'consumer')
+    @consumer.subscribe(ENV['KAFKA_TOPIC'])
+  end
+
+  def push(msg)
+    @producer.produce(msg, topic: ENV['KAFKA_TOPIC'])
+  end
+
+  def subscribe
+    @consumer.each_message do |msg|
+      yield msg.value
+    end
+  end
+
+  def close
+    @producer.shutdown
+    trap('TERM') { @consumer.stop }
+  end
+end

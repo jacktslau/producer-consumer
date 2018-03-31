@@ -17,7 +17,7 @@ class Webapp < Sinatra::Base
     disable :running
     set :lock, Mutex.new
     set :service, AccountService.new(5)
-    set :queue, SimpleMessageQueue.new
+    set :queue, KafkaMessageQueue.new
     set :producers, Producer.new(3, settings.queue, settings.service)
     set :consumers, Consumer.new(1, settings.queue) { |msg|
       settings.sockets.each{ |s| s.send(msg.to_json) }
@@ -42,7 +42,7 @@ class Webapp < Sinatra::Base
       logger.info "Stopping Consumer"
       settings.consumers.kill
 
-      settings.queue.clear
+      settings.queue.close
 
       # get all accounts and print log
       settings.service.get_accounts

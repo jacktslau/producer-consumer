@@ -44,6 +44,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
+    ruby-kafka (0.5.4)
     sinatra (2.0.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -70,6 +71,7 @@ DEPENDENCIES
   mongo
   mongoid
   rspec
+  ruby-kafka
   sinatra
   sinatra-websocket
   thin

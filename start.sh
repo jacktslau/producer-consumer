@@ -8,6 +8,21 @@ then
   export MONGO_PORT=27017
 fi
 
+if [ -z "$KAFKA_HOST" ];
+then
+  export KAFKA_HOST=127.0.0.1
+fi
+
+if [ -z "$KAFKA_PORT" ];
+then
+  export KAFKA_PORT=9092
+fi
+
+if [ -z "$KAFKA_TOPIC" ];
+then
+  export KAFKA_TOPIC=pctest
+fi
+
 if [ -z "$RACK_ENV" ];
 then
   export RACK_ENV=development

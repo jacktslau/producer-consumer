@@ -17,19 +17,18 @@ class Consumer
   def start
     @size.times do
       @threads << Thread.new do
-        loop do
-          run
-        end
+        run
       end
     end
   end
 
   def run
-    msg = @queue.pop
-    if(!msg.nil?)
+    @queue.subscribe { |msg|
       @logger.info "Received #{msg}"
-      @callback.call(msg.to_view)
-    end
+      txn = Transaction.new_from_json(msg)
+      @callback.call(txn.to_view)
+
+    }
   end
 
   def kill
