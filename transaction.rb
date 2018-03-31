@@ -32,18 +32,15 @@ class Transaction
   end
 
   def to_view
-    {
-        :id => _id.to_s,
-        :producer_id => producer_id,
-        :account_id => account_id.to_s,
-        :type => TransactionType.value_of(type),
-        :amount => amount,
-        :create_at => create_at
-    }
+    attrs = as_json
+    attrs['id'] = attrs.delete('_id').to_s
+    attrs['account_id'] = account._id.to_s
+    attrs['type'] = TransactionType.value_of(attrs['type'])
+    attrs
   end
 
-  def to_s
-    "Transaction (id=#{_id.to_s}, producer_id=#{producer_id}, accountId=#{account_id}, type=#{TransactionType.value_of(type)}, amount=#{amount}, create_at=#{create_at})"
+  def to_pretty_s
+    "Transaction (id=#{_id.to_s}, producer_id=#{producer_id}, account_id=#{account_id.to_s}, type=#{TransactionType.value_of(type)}, amount=#{amount}, create_at=#{create_at})"
   end
 
 end
