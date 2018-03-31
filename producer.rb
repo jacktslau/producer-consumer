@@ -8,11 +8,11 @@ class Producer
 
   attr_reader :size
 
-  def initialize(size = 5, queue, accountService)
+  def initialize(size = 5, queue, service)
     @logger = Logger.new(STDOUT)
     @size = size
     @queue = queue
-    @accountService = accountService
+    @service = service
     @threads = []
   end
 
@@ -30,12 +30,12 @@ class Producer
   def run
     sleep(rand(10))
     pid = Thread.current.object_id
-    transaction = @accountService.randomTransaction(pid)
+    transaction = @service.random_transaction(pid)
     @queue.push(transaction)
-    updatedAcc = @accountService.applyTransaction(transaction)
-    if(!updatedAcc.nil?)
+    updated_acc = @service.apply_transaction(transaction)
+    if(!updated_acc.nil?)
       # After each transaction log the following information: producer_id, transaction_id, amount, side, balance (after an update).
-      @logger.info "Producer ##{pid} generates $#{transaction.amount} #{TransactionType.valueOf(transaction.type)} transaction ##{transaction.id} to Account ##{updatedAcc.id} with updated balance: #{updatedAcc.balance}"
+      @logger.info "Producer ##{pid} generates $#{transaction.amount} #{TransactionType.value_of(transaction.type)} transaction ##{transaction.id} to Account ##{updated_acc.id} with updated balance: #{updated_acc.balance}"
     end
   end
 

@@ -4,7 +4,7 @@ module TransactionType
   PAYMENT = 1
   TOPUP = 2
 
-  def self.valueOf(value)
+  def self.value_of(value)
     case value
       when TransactionType::PAYMENT
         return "PAYMENT"
@@ -20,30 +20,30 @@ end
 class Transaction
   include Mongoid::Document
 
-  field :producerId, type: String
+  field :producer_id, type: String
   field :type, type: Integer
   field :amount, type: Float
-  field :createTs, type: DateTime
+  field :create_at, type: DateTime
 
   embedded_in :account
 
-  def accountId
+  def account_id
     account._id
   end
 
   def to_view
     {
-      :id => _id,
-      :producerId => producerId,
-      :accountId => accountId.to_s,
-      :type => TransactionType.valueOf(type),
-      :amount => amount,
-      :createTs => createTs
+        :id => _id,
+        :producer_id => producer_id,
+        :account_id => account_id.to_s,
+        :type => TransactionType.value_of(type),
+        :amount => amount,
+        :create_at => create_at
     }
   end
 
   def to_s
-    "Transaction (id=#{_id}, producerId=#{producerId}, accountId=#{accountId}, type=#{TransactionType.valueOf(type)}, amount=#{amount}, createTs=#{createTs})"
+    "Transaction (id=#{_id}, producer_id=#{producer_id}, accountId=#{account_id}, type=#{TransactionType.value_of(type)}, amount=#{amount}, create_at=#{create_at})"
   end
 
 end

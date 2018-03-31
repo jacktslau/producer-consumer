@@ -23,9 +23,9 @@ Open a consumer UI to display any transaction log once it received.
 ## Implementation
 
 Here is the different implementation in each version:
-* [[0.3.0]()] using Ruby build-in Queue, data stored in ram, Producers and Consumers all implemented in a single Sinatra web service.
-* [[0.4.0]()] using Ruby build-in Queue, data stored in MongoDB, Producers and Consumers all implemented in a single Sinatra web service.
-* [[0.5.0]()] using Apache Kafka as Queue, data stored in MongoDB, Producers and Consumers are separated into two servers. 
+* [[0.3.0](https://github.com/jtaisa/producer-consumer/tree/v0.3.0)] using Ruby build-in Queue, data stored in ram, Producers and Consumers all implemented in a single Sinatra web service.
+* [[0.4.0](https://github.com/jtaisa/producer-consumer/tree/v0.4.0)] using Ruby build-in Queue, data stored in MongoDB, Producers and Consumers all implemented in a single Sinatra web service.
+* [[0.5.0](https://github.com/jtaisa/producer-consumer/tree/v0.5.0)] using Apache Kafka as Queue, data stored in MongoDB, Producers and Consumers are separated into two servers. 
 
 Please refer to the [CHANGELOG](./CHANGELOG) for details
 

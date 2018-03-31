@@ -7,53 +7,48 @@ require 'mongoid'
 
 class AccountService
 
-  def initialize(accountSize = 10)
-    @transactionTypes = [TransactionType::PAYMENT, TransactionType::TOPUP]
+  def initialize(account_size = 10)
+    @transaction_types = [TransactionType::PAYMENT, TransactionType::TOPUP]
 
     Account.collection.drop
-    accountSize.times do
-      randomAccount
+    account_size.times do
+      random_account
     end
   end
 
-  def getAccounts
+  def get_accounts
     Account.all
   end
 
-  def getAccount(id)
+  def get_account(id)
     Account.find(id)
   end
 
-  def getAccountTransaction(id)
-
+  def random_account
+    Account.create(balance: 10000, create_at: Time.now, update_at: Time.now, transactions: [])
   end
 
-  def randomAccount
-    Account.create(balance: 10000, createTs: Time.now, updateTs: Time.now, transactions: [])
+  def random_transaction(producer_id)
+    rand_acc = Account.all.sample
+    rand_txn_type = @transaction_types.sample
+    rand_amt = rand(1...100)
+    Transaction.create(account: rand_acc, producer_id: producer_id, type: rand_txn_type, amount: rand_amt, create_at: Time.now)
   end
 
-  def randomTransaction(producerId)
-    randAcc = Account.all.sample
-    randTxnType = @transactionTypes.sample
-    randAmt = rand(1...100)
-    Transaction.create(account: randAcc, producerId: producerId, type: randTxnType, amount: randAmt, createTs: Time.now)
-  end
-
-  def applyTransaction(transaction)
-    accId = transaction.account._id
-    acc = Account.find(accId)
+  def apply_transaction(transaction)
+    acc_id = transaction.account._id
+    acc = Account.find(acc_id)
     if !acc.nil?
 
       case transaction.type
         when TransactionType::PAYMENT
-          acc.inc(balance: -(transaction.amount)).update(updateTs: Time.now)
+          acc.inc(balance: -(transaction.amount)).update(update_at: Time.now)
 
         when TransactionType::TOPUP
-          acc.inc(balance: transaction.amount).update(updateTs: Time.now)
+          acc.inc(balance: transaction.amount).update(update_at: Time.now)
       end
 
-      return getAccount(accId)
-
+      return get_account(acc_id)
     else
       return nil
     end
