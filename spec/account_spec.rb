@@ -6,8 +6,8 @@ RSpec.describe Account do
   it 'not apply transaction if transaction account id not match' do
     acc = Account.new 100
     txn = Transaction.new 'id','otherid', TransactionType::PAYMENT, 10
-    applyAcc = acc.apply(txn)
-    expect(applyAcc.balance).to eq(acc.balance)
+    acc.apply(txn)
+    expect(acc.balance).to eq(acc.balance)
   end
 
   it 'apply payment transaction and returns new account object' do

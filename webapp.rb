@@ -15,9 +15,9 @@ class Webapp < Sinatra::Base
 
     disable :running
     set :lock, Mutex.new
-    set :accountService, AccountService.new(5)
+    set :service, AccountService.new(5)
     set :queue, SimpleMessageQueue.new
-    set :producers, Producer.new(3, settings.queue, settings.accountService)
+    set :producers, Producer.new(3, settings.queue, settings.service)
     set :consumers, Consumer.new(1, settings.queue) { |msg|
       settings.sockets.each{ |s| s.send(msg.to_json) }
     }
@@ -44,7 +44,7 @@ class Webapp < Sinatra::Base
       settings.queue.clear
 
       # get all accounts and print log
-      settings.accountService.getAccounts.map { |acc|
+      settings.service.get_accounts.map { |acc|
         acc.to_hash
       }
     end

@@ -5,20 +5,20 @@ require 'json'
 
 class Account
 
-  attr_reader :id, :balance, :transactionLogs, :createTs, :updateTs
+  attr_reader :id, :balance, :transactions, :create_at, :update_at
 
-  def initialize (balance, createTs = Time.now, updateTs = Time.now, id = UUIDTools::UUID.timestamp_create)
+  def initialize (balance, create_at = Time.now, update_at = Time.now, id = UUIDTools::UUID.timestamp_create)
     @id = id
     @balance = balance
-    @createTs = createTs
-    @updateTs = updateTs
+    @create_at = create_at
+    @update_at = update_at
     @lock = Mutex.new
-    @transactionLogs = []
+    @transactions = []
   end
 
   # Return account with transaction applied
   def apply (transaction)
-    if @id != transaction.accountId
+    if @id != transaction.account_id
       return itself
     end
 
@@ -26,12 +26,12 @@ class Account
       case transaction.type
         when TransactionType::PAYMENT
           @balance -= transaction.amount
-          @updateTs = Time.now
-          @transactionLogs << transaction
+          @update_at = Time.now
+          @transactions << transaction
         when TransactionType::TOPUP
           @balance += transaction.amount
-          @updateTs = Time.now
-          @transactionLogs << transaction
+          @update_at = Time.now
+          @transactions << transaction
       end
     end
 
@@ -39,13 +39,13 @@ class Account
   end
 
   def to_hash
-    txnLogHash = @transactionLogs.map { |t| t.to_hash }
+    hash = @transactions.map { |t| t.to_hash }
     {
         :id => @id.to_s,
         :balance => @balance,
-        :createTs => @createTs,
-        :updateTs => @updateTs,
-        :transactionLogs => txnLogHash
+        :create_at => @create_at,
+        :update_at => @update_at,
+        :transactions => hash
     }
   end
 
@@ -55,10 +55,10 @@ class Account
 
 
   def to_s
-    txnLogs = @transactionLogs.map { |txn|
+    txns = @transactions.map { |txn|
       txn.to_s
     }
-    "Account (id=#{@id}, balance=#{@balance}, createTs=#{@createTs}, updateTs=#{@updateTs}, transactionLogs=#{txnLogs})"
+    "Account (id=#{@id}, balance=#{@balance}, create_at=#{@create_at}, update_at=#{@update_at}, transactions=#{txns})"
   end
 
 end

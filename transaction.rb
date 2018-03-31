@@ -6,7 +6,7 @@ module TransactionType
   PAYMENT = 1
   TOPUP = 2
 
-  def self.valueOf(value)
+  def self.value_of(value)
     case value
       when TransactionType::PAYMENT
         return "PAYMENT"
@@ -21,25 +21,25 @@ end
 
 class Transaction
 
-  attr_reader :id, :producerId, :accountId, :type, :amount, :createTs
+  attr_reader :id, :producer_id, :account_id, :type, :amount, :create_at
 
-  def initialize (producerId, accountId, type, amount, createTs = Time.now, id = UUIDTools::UUID.timestamp_create)
+  def initialize (producer_id, account_id, type, amount, create_at = Time.now, id = UUIDTools::UUID.timestamp_create)
     @id = id
-    @producerId = producerId
-    @accountId = accountId
+    @producer_id = producer_id
+    @account_id = account_id
     @type = type
     @amount = amount
-    @createTs = createTs
+    @create_at = create_at
   end
 
   def to_hash
     {
         :id => @id.to_s,
-        :producerId => @producerId,
-        :accountId => @accountId.to_s,
-        :type => TransactionType.valueOf(@type),
+        :producer_id => @producer_id,
+        :account_id => @account_id.to_s,
+        :type => TransactionType.value_of(@type),
         :amount => @amount,
-        :createTs => @createTs
+        :create_at => @create_at
     }
   end
 
@@ -48,7 +48,7 @@ class Transaction
   end
 
   def to_s
-    "Transaction (id=#{@id}, producerId=#{@producerId}, accountId=#{@accountId}, type=#{@type}, amount=#{@amount}, createTs=#{@createTs})"
+    "Transaction (id=#{@id}, producer_id=#{@producer_id}, account_id=#{@account_id}, type=#{@type}, amount=#{@amount}, create_at=#{@create_at})"
   end
 
 end
