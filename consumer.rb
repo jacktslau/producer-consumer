@@ -26,8 +26,10 @@ class Consumer
 
   def run
     msg = @queue.pop
-    @logger.info "Received #{msg}"
-    @callback.call(msg)
+    if(!msg.nil?)
+      @logger.info "Received #{msg}"
+      @callback.call(msg.to_view)
+    end
   end
 
   def kill

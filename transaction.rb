@@ -1,6 +1,4 @@
-require 'date'
-require 'uuidtools'
-require 'json'
+require 'mongoid'
 
 module TransactionType
   PAYMENT = 1
@@ -20,35 +18,32 @@ module TransactionType
 end
 
 class Transaction
+  include Mongoid::Document
 
-  attr_reader :id, :producerId, :accountId, :type, :amount, :createTs
+  field :producerId, type: String
+  field :type, type: Integer
+  field :amount, type: Float
+  field :createTs, type: DateTime
 
-  def initialize (producerId, accountId, type, amount, createTs = Time.now, id = UUIDTools::UUID.timestamp_create)
-    @id = id
-    @producerId = producerId
-    @accountId = accountId
-    @type = type
-    @amount = amount
-    @createTs = createTs
+  embedded_in :account
+
+  def accountId
+    account._id
   end
 
-  def to_hash
+  def to_view
     {
-        :id => @id.to_s,
-        :producerId => @producerId,
-        :accountId => @accountId.to_s,
-        :type => TransactionType.valueOf(@type),
-        :amount => @amount,
-        :createTs => @createTs
+      :id => _id,
+      :producerId => producerId,
+      :accountId => accountId.to_s,
+      :type => TransactionType.valueOf(type),
+      :amount => amount,
+      :createTs => createTs
     }
   end
 
-  def to_json
-    to_hash.to_json
-  end
-
   def to_s
-    "Transaction (id=#{@id}, producerId=#{@producerId}, accountId=#{@accountId}, type=#{@type}, amount=#{@amount}, createTs=#{@createTs})"
+    "Transaction (id=#{_id}, producerId=#{producerId}, accountId=#{accountId}, type=#{TransactionType.valueOf(type)}, amount=#{amount}, createTs=#{createTs})"
   end
 
 end

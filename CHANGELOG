@@ -18,7 +18,12 @@
 - Add Dockerfile to build docker image
 - spent: 4 hours
 
-## [0.4.0]
-
+## [0.4.0] - Apply MongoDB for data persistence
+- add docker-compose to run mongodb locally
+- revise data model to use mongo document
+- move save logic into account service
+- apply mongoid orm
+- TODO: integration spec
+- spent: 4 hours
 
 ## [0.5.0]

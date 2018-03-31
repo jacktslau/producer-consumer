@@ -1,5 +1,3 @@
-require 'thread'
-
 module MessageQueue
   def push(msg)
     raise 'Not implemented'
@@ -51,3 +49,4 @@ class SimpleMessageQueue
   end
 
 end
+

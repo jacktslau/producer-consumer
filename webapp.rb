@@ -5,6 +5,7 @@ require_relative 'account_service'
 
 require 'sinatra/base'
 require 'sinatra-websocket'
+require 'json'
 
 class Webapp < Sinatra::Base
 
@@ -15,6 +16,7 @@ class Webapp < Sinatra::Base
 
     disable :running
     set :lock, Mutex.new
+
     set :accountService, AccountService.new(5)
     set :queue, SimpleMessageQueue.new
     set :producers, Producer.new(3, settings.queue, settings.accountService)
@@ -44,9 +46,7 @@ class Webapp < Sinatra::Base
       settings.queue.clear
 
       # get all accounts and print log
-      settings.accountService.getAccounts.map { |acc|
-        acc.to_hash
-      }
+      settings.accountService.getAccounts
     end
 
   end

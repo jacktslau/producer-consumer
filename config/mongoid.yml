@@ -1,0 +1,16 @@
+<% host = ENV['MONGO_HOST'] %>
+<% port = ENV['MONGO_PORT'] %>
+
+development:
+  clients:
+    default:
+      database: db
+      hosts:
+        - <%= host %>:<%= port %>
+
+production:
+  clients:
+    default:
+      database: db
+      hosts:
+        - <%= host %>:<%= port %>

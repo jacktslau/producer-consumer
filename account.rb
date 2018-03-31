@@ -1,64 +1,20 @@
 require_relative 'transaction'
 
-require 'uuidtools'
-require 'json'
+require 'mongoid'
 
 class Account
+  include Mongoid::Document
 
-  attr_reader :id, :balance, :transactionLogs, :createTs, :updateTs
-
-  def initialize (balance, createTs = Time.now, updateTs = Time.now, id = UUIDTools::UUID.timestamp_create)
-    @id = id
-    @balance = balance
-    @createTs = createTs
-    @updateTs = updateTs
-    @lock = Mutex.new
-    @transactionLogs = []
-  end
-
-  # Return account with transaction applied
-  def apply (transaction)
-    if @id != transaction.accountId
-      return itself
-    end
-
-    @lock.synchronize do
-      case transaction.type
-        when TransactionType::PAYMENT
-          @balance -= transaction.amount
-          @updateTs = Time.now
-          @transactionLogs << transaction
-        when TransactionType::TOPUP
-          @balance += transaction.amount
-          @updateTs = Time.now
-          @transactionLogs << transaction
-      end
-    end
-
-    return itself
-  end
-
-  def to_hash
-    txnLogHash = @transactionLogs.map { |t| t.to_hash }
-    {
-        :id => @id.to_s,
-        :balance => @balance,
-        :createTs => @createTs,
-        :updateTs => @updateTs,
-        :transactionLogs => txnLogHash
-    }
-  end
-
-  def to_json
-    to_hash.to_json
-  end
-
+  field :balance, type: Float
+  field :createTs, type: DateTime
+  field :updateTs, type: DateTime
+  embeds_many :transactions
 
   def to_s
-    txnLogs = @transactionLogs.map { |txn|
+    txnLogs = transactions.map { |txn|
       txn.to_s
     }
-    "Account (id=#{@id}, balance=#{@balance}, createTs=#{@createTs}, updateTs=#{@updateTs}, transactionLogs=#{txnLogs})"
+    "Account (id=#{_id}, balance=#{balance}, createTs=#{createTs}, updateTs=#{updateTs}, transactions=#{txnLogs})"
   end
 
 end

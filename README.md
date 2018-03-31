@@ -11,12 +11,12 @@ Each consumer reads the transaction from the queue and log it.
 
 ### WebServer
 
-`/toggle`
+`http://localhost:9292/toggle`
 
 Start or stop the producers and consumers. 
 It returns all accounts and transaction in json format when it stops.
 
-`/consumer/log`
+`http://localhost:9292/consumer/log`
 
 Open a consumer UI to display any transaction log once it received.
 
@@ -24,8 +24,8 @@ Open a consumer UI to display any transaction log once it received.
 
 Here is the different implementation in each version:
 * [[0.3.0]()] using Ruby build-in Queue, data stored in ram, Producers and Consumers all implemented in a single Sinatra web service.
-* [[0.4.0]()] using Ruby build-in Queue, data stored in Redis, Producers and Consumers all implemented in a single Sinatra web service.
-* [[0.5.0]()] using Apache Kafka as Queue, data stored in Redis, Producers and Consumers are separated into two servers. 
+* [[0.4.0]()] using Ruby build-in Queue, data stored in MongoDB, Producers and Consumers all implemented in a single Sinatra web service.
+* [[0.5.0]()] using Apache Kafka as Queue, data stored in MongoDB, Producers and Consumers are separated into two servers. 
 
 Please refer to the [CHANGELOG](./CHANGELOG) for details
 
@@ -37,10 +37,10 @@ Please install the following tools in order to build/develop this project
 
 
 ### Start Local Server
+`$ docker-compose up -d`
+
 `$ sh start.sh`
 
 ### Run in Docker image
 
-`$ docker build -t producer-consumer .`
-
-`$ docker run -d -p 9292:9292 producer-consumer`
+`$ docker-compose -f docker-compose-app.yml up -d`

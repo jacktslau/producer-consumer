@@ -35,7 +35,7 @@ class Producer
     updatedAcc = @accountService.applyTransaction(transaction)
     if(!updatedAcc.nil?)
       # After each transaction log the following information: producer_id, transaction_id, amount, side, balance (after an update).
-      @logger.info "Producer ##{pid} generates $#{transaction.amount} #{transaction.type} transaction ##{transaction.id} to Account ##{updatedAcc.id} with updated balance: #{updatedAcc.balance}"
+      @logger.info "Producer ##{pid} generates $#{transaction.amount} #{TransactionType.valueOf(transaction.type)} transaction ##{transaction.id} to Account ##{updatedAcc.id} with updated balance: #{updatedAcc.balance}"
     end
   end
 
