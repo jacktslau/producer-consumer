@@ -33,7 +33,7 @@ class Transaction
 
   def to_view
     {
-        :id => _id,
+        :id => _id.to_s,
         :producer_id => producer_id,
         :account_id => account_id.to_s,
         :type => TransactionType.value_of(type),
@@ -43,7 +43,7 @@ class Transaction
   end
 
   def to_s
-    "Transaction (id=#{_id}, producer_id=#{producer_id}, accountId=#{account_id}, type=#{TransactionType.value_of(type)}, amount=#{amount}, create_at=#{create_at})"
+    "Transaction (id=#{_id.to_s}, producer_id=#{producer_id}, accountId=#{account_id}, type=#{TransactionType.value_of(type)}, amount=#{amount}, create_at=#{create_at})"
   end
 
 end
