@@ -38,10 +38,21 @@ Please install the following tools in order to build/develop this project
 
 ### Start Local Servers
 
-1. Build gem for producer-consumer common lib `$ cd common ; gem build pc-common.gemspec ; gem install pc-common-0.0.1.gem`
-2. Start MongoDB and Apache Kafka `$ docker-compose up -d`
-3. Start Consumer `$ cd consumer ; sh start.sh`
-4. Start Producer `$ cd producer ; sh start.sh`
+1. Build gem for producer-consumer common lib 
+   
+   `$ cd common ; gem build pc-common.gemspec ; gem install pc-common-0.0.1.gem`
+
+2. Start MongoDB and Apache Kafka 
+
+   `$ docker-compose up -d`
+
+3. Start Consumer 
+
+   `$ cd consumer ; sh start.sh`
+
+4. Start Producer 
+
+   `$ cd producer ; sh start.sh`
 
 ### Run in Docker image
 
