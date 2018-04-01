@@ -1,21 +1,65 @@
 version: '3'
 
 services:
-  app:
-    build: .
-    container_name: "producer-consumer"
+  producer:
+    build:
+      context: .
+      dockerfile: producer/Dockerfile
+    container_name: "producer"
     environment:
       - RACK_ENV=development
+      - PORT=9292
       - MONGO_HOST=mongodb
+      - KAFKA_HOST=kafka1
+      - KAFKA_PORT=9092
+      - KAFKA_TOPIC=pctest
     ports:
-      - 9292:9292
+      - 9290:9292
     links:
       - mongodb
+      - kafka1
     depends_on:
       - mongodb
+      - kafka1
+
+  consumer:
+    build:
+      context: .
+      dockerfile: consumer/Dockerfile
+    container_name: "consumer"
+    environment:
+      - RACK_ENV=development
+      - PORT=9292
+      - KAFKA_HOST=kafka1
+      - KAFKA_PORT=9092
+      - KAFKA_TOPIC=pctest
+    ports:
+      - 9291:9292
+    links:
+      - kafka1
+    depends_on:
+      - kafka1
 
   mongodb:
     image: mongo:latest
     container_name: "mongodb"
     ports:
       - 27017:27017
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: "zookeeper"
+    ports:
+      - 2181:2181
+
+  kafka1:
+    image: wurstmeister/kafka
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka1
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_CREATE_TOPICS: "pctest:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    depends_on:
+      - zookeeper

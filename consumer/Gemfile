@@ -1,11 +1,10 @@
 source 'http://rubygems.org'
 gem 'sinatra'
 gem 'thin'
-gem 'sinatra-websocket'
-gem 'uuidtools'
-gem 'mongo'
 gem 'mongoid'
+gem 'sinatra-websocket'
 gem 'ruby-kafka'
+gem 'pc-common'
 
 group :test do
   gem 'rspec'

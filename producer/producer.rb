@@ -1,8 +1,7 @@
-require_relative 'transaction'
-require_relative 'account'
-
 require 'thread'
 require 'logger'
+require 'transaction'
+require 'account'
 
 class Producer
 
@@ -31,7 +30,7 @@ class Producer
     sleep(rand(10))
     pid = Thread.current.object_id
     transaction = @service.random_transaction(pid)
-    @queue.push(transaction.to_full_json)
+    @queue.push(transaction.to_view.to_json)
     updated_acc = @service.apply_transaction(transaction)
     if(!updated_acc.nil?)
       # After each transaction log the following information: producer_id, transaction_id, amount, side, balance (after an update).

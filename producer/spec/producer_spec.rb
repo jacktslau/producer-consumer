@@ -1,6 +1,6 @@
-require_relative '../account_service'
-require_relative '../account'
-require_relative '../transaction'
+require_relative '../../common/account_service'
+require_relative '../../common/account'
+require_relative '../../common/transaction'
 require_relative '../producer'
 
 RSpec.describe Producer do

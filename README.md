@@ -25,9 +25,9 @@ Open a consumer UI to display any transaction log once it received.
 Here is the different implementation in each version:
 * [[0.3.0](https://github.com/jtaisa/producer-consumer/tree/v0.3.0)] using Ruby build-in Queue, data stored in ram, Producers and Consumers all implemented in a single Sinatra web service.
 * [[0.4.0](https://github.com/jtaisa/producer-consumer/tree/v0.4.0)] using Ruby build-in Queue, data stored in MongoDB, Producers and Consumers all implemented in a single Sinatra web service.
-* [[0.5.0](https://github.com/jtaisa/producer-consumer/tree/v0.5.0)] using Apache Kafka as Queue, data stored in MongoDB, Producers and Consumers are separated into two servers. 
+* [[0.5.0](https://github.com/jtaisa/producer-consumer/tree/v0.5.0)] using Apache Kafka as Queue, data stored in MongoDB, Producers and Consumers are separated into two services. 
 
-Please refer to the [CHANGELOG](./CHANGELOG) for details
+Please refer to the [CHANGELOG](./CHANGELOG) for details and issues
 
 ### Prerequisite
 Please install the following tools in order to build/develop this project
@@ -36,10 +36,12 @@ Please install the following tools in order to build/develop this project
 * [Docker](https://docs.docker.com/install/)
 
 
-### Start Local Server
-`$ docker-compose up -d`
+### Start Local Servers
 
-`$ sh start.sh`
+1. Build gem for producer-consumer common lib `$ cd common ; gem build pc-common.gemspec ; gem install pc-common-0.0.1.gem`
+2. Start MongoDB and Apache Kafka `$ docker-compose up -d`
+3. Start Consumer `$ cd consumer ; sh start.sh`
+4. Start Producer `$ cd producer ; sh start.sh`
 
 ### Run in Docker image
 

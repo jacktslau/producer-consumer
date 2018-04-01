@@ -39,22 +39,6 @@ class Transaction
     attrs
   end
 
-  def to_full_json
-    attrs = as_json
-    attrs['_id'] = attrs['_id'].to_s
-
-    account_json = account.as_json
-    account_json['_id'] = account_json['_id'].to_s
-    account_json.delete('transactions')
-    attrs['account'] = account_json
-
-    attrs.to_json
-  end
-
-  def self.new_from_json(json_string)
-    self.new(JSON.parse(json_string))
-  end
-
   def to_pretty_s
     "Transaction (id=#{_id.to_s}, producer_id=#{producer_id}, account_id=#{account_id.to_s}, type=#{TransactionType.value_of(type)}, amount=#{amount}, create_at=#{create_at})"
   end

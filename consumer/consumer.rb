@@ -1,5 +1,6 @@
 require 'thread'
 require 'logger'
+require 'json'
 
 class Consumer
 
@@ -23,11 +24,10 @@ class Consumer
   end
 
   def run
+    sleep(100)
     @queue.subscribe { |msg|
       @logger.info "Received #{msg}"
-      txn = Transaction.new_from_json(msg)
-      @callback.call(txn.to_view)
-
+      @callback.call(JSON.parse(msg))
     }
   end
 

@@ -26,4 +26,10 @@
 - TODO: integration spec
 - spent: 4 hours
 
-## [0.5.0]
+## [0.5.0] - Apply Apache Kafka for message queue
+- Separate producer and consumer into two services
+- Move common modules into /common and build as gem
+- Issue: Kafka container seems need time to warm up, so I added a startup delay in both consumer and producer startup script
+- Issue: Producer and Consumer containers take quite a long time to establish Kafka connection, docker network issue?
+- TODO: retry on Kafka connection
+- spent: 5 hours
