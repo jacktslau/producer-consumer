@@ -20,7 +20,7 @@ fi
 
 if [ -z "$PORT" ];
 then
-  export PORT=9292
+  export PORT=9291
 fi
 
 if [ "$RACK_EN" == "production" ];

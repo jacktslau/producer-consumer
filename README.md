@@ -11,12 +11,12 @@ Each consumer reads the transaction from the queue and log it.
 
 ### WebServer
 
-`http://localhost:9292/toggle`
+`http://localhost:9290/toggle`
 
 Start or stop the producers and consumers. 
 It returns all accounts and transaction in json format when it stops.
 
-`http://localhost:9292/consumer/log`
+`http://localhost:9291/consumer/log`
 
 Open a consumer UI to display any transaction log once it received.
 
@@ -56,4 +56,9 @@ Please install the following tools in order to build/develop this project
 
 ### Run in Docker image
 
-`$ docker-compose -f docker-compose-app.yml up -d`
+* Startup Docker containers
+
+   `$ docker-compose -f docker-compose-app.yml up -d`
+   
+* Producer run at `http://localhost:9290/`
+* Consumer run at `http://localhost:9291/`
