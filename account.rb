@@ -2,7 +2,7 @@ require_relative 'transaction'
 
 Sequel::Model.plugin :json_serializer
 
-class Account < Sequel::Model(:accounts)
+class Account < Sequel::Model
   one_to_many :transactions
 
   def to_view

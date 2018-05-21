@@ -17,8 +17,8 @@ end
 
 Sequel::Model.plugin :json_serializer
 
-class Transaction < Sequel::Model(:transactions)
-  many_to_one :accounts
+class Transaction < Sequel::Model
+  many_to_one :account
 
   def to_view_json
     v = values.clone

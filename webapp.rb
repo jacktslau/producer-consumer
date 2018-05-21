@@ -45,7 +45,7 @@ class Webapp < Sinatra::Base
       settings.queue.clear
 
       # get all accounts and print log
-      settings.service.get_accounts.map { |a| a.to_view }
+      settings.service.get_txn_accounts
     end
 
   end

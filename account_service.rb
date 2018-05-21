@@ -23,8 +23,9 @@ class AccountService
   end
 
   def get_txn_accounts
-    txn_acc = Account.eager(:transactions).all
-    txn_acc
+    txn = Account.eager(:transactions).all
+    txn = txn.map { |a| a.to_view }
+    txn
   end
 
   def get_account(id)
