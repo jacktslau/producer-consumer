@@ -1,6 +1,8 @@
 require 'thread'
 require 'logger'
 
+require 'json'
+
 class Consumer
 
   attr_reader :size
@@ -27,8 +29,8 @@ class Consumer
   def run
     msg = @queue.pop
     if(!msg.nil?)
-      @logger.info "Received #{msg}"
-      @callback.call(msg.to_view)
+      @logger.info "Received #{msg.to_pretty_s}"
+      @callback.call(msg.to_view_json)
     end
   end
 

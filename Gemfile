@@ -3,8 +3,8 @@ gem 'sinatra'
 gem 'thin'
 gem 'sinatra-websocket'
 gem 'uuidtools'
-gem 'mongo'
-gem 'mongoid'
+gem 'sequel'
+gem 'sqlite3'
 
 group :test do
   gem 'rspec'

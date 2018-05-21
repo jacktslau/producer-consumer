@@ -1,20 +1,22 @@
 require_relative 'transaction'
 
-require 'mongoid'
+Sequel::Model.plugin :json_serializer
 
-class Account
-  include Mongoid::Document
+class Account < Sequel::Model(:accounts)
+  one_to_many :transactions
 
-  field :balance, type: Float
-  field :create_at, type: DateTime
-  field :update_at, type: DateTime
-  embeds_many :transactions
+  def to_view
+    v = values.clone
+    v[:transactions] = transactions
+    v
+  end
 
   def to_s
-    txns = @transactions.map { |txn|
-      txn.to_s
+    v = values
+    txns = v[:transactions].map { |txn|
+      txn.values
     }
-    "Account (id=#{@id}, balance=#{@balance}, create_at=#{@create_at}, update_at=#{@update_at}, transactions=#{txns})"
+    "Account (id=#{v[:id]}, balance=#{v[:balance]}, create_at=#{v[:create_at]}, update_at=#{v[:update_at]}, transactions=#{txns})"
   end
 
 end

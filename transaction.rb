@@ -1,5 +1,3 @@
-require 'mongoid'
-
 module TransactionType
   PAYMENT = 1
   TOPUP = 2
@@ -17,30 +15,21 @@ module TransactionType
 
 end
 
-class Transaction
-  include Mongoid::Document
+Sequel::Model.plugin :json_serializer
 
-  field :producer_id, type: String
-  field :type, type: Integer
-  field :amount, type: Float
-  field :create_at, type: DateTime
+class Transaction < Sequel::Model(:transactions)
+  many_to_one :accounts
 
-  embedded_in :account
-
-  def account_id
-    account._id
-  end
-
-  def to_view
-    attrs = as_json
-    attrs['id'] = attrs.delete('_id').to_s
-    attrs['account_id'] = account._id.to_s
-    attrs['type'] = TransactionType.value_of(attrs['type'])
-    attrs
-  end
+  def to_view_json
+    v = values.clone
+    view_type = TransactionType.value_of(v[:type])
+    v[:type] = view_type
+    v.to_json
+end
 
   def to_pretty_s
-    "Transaction (id=#{_id.to_s}, producer_id=#{producer_id}, account_id=#{account_id.to_s}, type=#{TransactionType.value_of(type)}, amount=#{amount}, create_at=#{create_at})"
+    v = values
+    "Transaction (id=#{v[:id]}, producer_id=#{v[:producer_id]}, account_id=#{v[:account_id]}, type=#{TransactionType.value_of(v[:type])}, amount=#{v[:amount]}, create_at=#{v[:create_at]})"
   end
 
 end

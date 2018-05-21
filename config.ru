@@ -1,9 +1,8 @@
 require 'rubygems'
 require 'bundler'
-require 'mongoid'
 Bundler.require
 
-Mongoid.load!('config/mongoid.yml', ENV['RACK_ENV'])
+$DB = Sequel.connect('sqlite://db/dev.sqlite3')
 
 require './webapp.rb'
 run Webapp

@@ -1,13 +1,3 @@
-if [ -z "$MONGO_HOST" ];
-then
-  export MONGO_HOST=127.0.0.1
-fi
-
-if [ -z "$MONGO_PORT" ];
-then
-  export MONGO_PORT=27017
-fi
-
 if [ -z "$RACK_ENV" ];
 then
   export RACK_ENV=development
